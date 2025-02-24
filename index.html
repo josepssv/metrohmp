@@ -99,53 +99,49 @@
         let escribi;
         let nbari=16;
         const durations = [1, 2, 4, 8, 16, 32, 64];
-        document.getElementById("inputTempo").addEventListener("change", function(){
-          tempi=parseInt(this.value)
-          initraki(parseInt(this.value),compi[0]) ;
 
-        });
+function handleChange(event, isTempo) {
+    const value = parseInt(event.target.value);
+    if (isTempo) {
+        tempi = value;
+    } else {
+        nbari = value;
+    }
+    initraki(tempi, compi[0]);
+}
 
-         document.getElementById("inputNbari").addEventListener("change", function(){
-        nbari=parseInt(this.value)
-        initraki(tempi,compi[0]) ;
-        });
+document.getElementById("inputTempo").addEventListener("change", function(event) {
+    handleChange(event, true);
+});
 
-
-        document.getElementById("2_4").addEventListener("click", function(){
-           var messages = document.querySelectorAll(".m");
-          for (var i = 0; i < messages.length; i++) {
-            messages[i].style.color="#888"
-          }
-          this.style.color="#000"
-
-      compi[0]=2;
-      initraki(tempi,2)
-        });
-
-        document.getElementById("3_4").addEventListener("click", function(){
-           var messages = document.querySelectorAll(".m");
-          for (var i = 0; i < messages.length; i++) {
-            messages[i].style.color="#888"
-          }
-          this.style.color="#000"
-
-      compi[0]=3;
-      initraki(tempi,3)
-        });
+document.getElementById("inputNbari").addEventListener("change", function(event) {
+    handleChange(event, false);
+});
 
 
-         document.getElementById("4_4").addEventListener("click", function(){
-           var messages = document.querySelectorAll(".m");
-          for (var i = 0; i < messages.length; i++) {
-            messages[i].style.color="#888"
-          }
-          this.style.color="#000"
+ function handleClick(event, compiValue) {
+     var messages = document.querySelectorAll(".m");
+    for (var i = 0; i < messages.length; i++) {
+        messages[i].style.color = "#888";
+    }
+    event.target.style.color = "#000";
+    compi[0] = compiValue;
+    initraki(tempi, compiValue);
+}
 
-      compi[0]=4;
-      initraki(tempi,4)
-        });
+document.getElementById("2_4").addEventListener("click", function(event) {
+    handleClick(event, 2);
+});
 
-      function addi(dati, ntraki) {
+document.getElementById("3_4").addEventListener("click", function(event) {
+    handleClick(event, 3);
+});
+
+document.getElementById("4_4").addEventListener("click", function(event) {
+    handleClick(event, 4);
+});     
+      
+function addi(dati, ntraki) {
          traki[ntraki].addEvent(
           new MidiWriter.ProgramChangeEvent({ instrument: dati[0], channel: ntraki })
         );
