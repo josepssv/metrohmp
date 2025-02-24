@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Metronome</title>
+    <script src="https://cdn.jsdelivr.net/npm/midi-writer-js@3.1.1/browser/midiwriter.min.js"></script>
+    <meta charset="utf-8" />
+<style>
+html,
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #aaa;
+  margin: 10px 20px 20px 10px;
+  font-family:arial;
+ 
+}
+
+/* bravura-text-latin-400-normal */
+@font-face {
+  font-family: 'Bravura Text';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 400;
+  src: url(https://cdn.jsdelivr.net/fontsource/fonts/bravura-text@latest/latin-400-normal.woff2) format('woff2'), url(https://cdn.jsdelivr.net/fontsource/fonts/bravura-text@latest/latin-400-normal.woff) format('woff');
+}
+  
+.m {
+  font-family: "Bravura", sans-serif;
+  font-size: 18px;
+  line-height: 1.2;
+  position: relative;
+  top: 7px;
+  background-color: #8883;
+}
+  .m:hover{
+     background-color: transparent;
+  }
+
+</style>
+  </head>
+  <body>
+  <div style="color:#666; letter-spacing:4px; padding-bottom:29px;">METRONOME
+  </div>  
+    <section id="section15">
+        <midi-player
+            id="player15"
+            src=""
+            sound-font
+            visualizer="#vstaffi"
+            style="display:block;"
+        >
+        </midi-player>
+    </section>
+  
+    <script src="https://cdn.jsdelivr.net/combine/npm/tone@14.7.58,npm/@magenta/music@1.23.1/es6/core.js,npm/focus-visible@5,npm/html-midi-player@1.5.0"></script><br>
+
+ <div style="width:600px;">
+  <a id="expi" class="" href="" style="color:#000;margin-left:10px;">
+   Download        
+  </a>
+    <span class="m" id="2_4" style="margin-left:30px;color:#999;font-size:33px;">2</span> <span class="m" id="3_4" style="color:#999;font-size:33px;">3</span> <span class="m" id="4_4" style="color:#555;font-size:33px;">4</span>
+    <span class="bpm-container" style="margin-left:25px;">
+        <label for="bpm-input">BPM:</label>
+        <input type="number" id="inputTempo" min="30" max="360" value="60" step="1">
+    </span>
+</div>
+<script>
+  let traki=[];
+  let compi=[4,4];
+  let tempi=60
+  let escribi;
+  const durations = [1, 2, 4, 8, 16, 32, 64];
+  document.getElementById("inputTempo").addEventListener("change", function(){
+    initraki(parseInt(this.value),4) ;  
+  tempi=parseInt(this.value)
+  });
+
+    
+  document.getElementById("2_4").addEventListener("click", function(){
+     var messages = document.querySelectorAll(".m");
+    for (var i = 0; i < messages.length; i++) {
+      messages[i].style.color="#888"
+    }
+    this.style.color="#000"
+compi[0]=2;
+initraki(tempi,2)
+  });
+  
+  document.getElementById("3_4").addEventListener("click", function(){
+     var messages = document.querySelectorAll(".m");
+    for (var i = 0; i < messages.length; i++) {
+      messages[i].style.color="#888"
+    }
+    this.style.color="#000"
+compi[0]=3;
+initraki(tempi,3)
+  });
+  
+  
+   document.getElementById("4_4").addEventListener("click", function(){
+     var messages = document.querySelectorAll(".m");
+    for (var i = 0; i < messages.length; i++) {
+      messages[i].style.color="#888"
+    }
+    this.style.color="#000"
+compi[0]=4;
+initraki(tempi,4)
+  });
+  
+function addi(dati, ntraki) {
+   traki[ntraki].addEvent(
+    new MidiWriter.ProgramChangeEvent({ instrument: dati[0], channel: ntraki })
+  );
+  traki[ntraki].addEvent(
+    new MidiWriter.NoteEvent({
+      pitch: dati[1],
+      duration: dati[2],
+      sequential: dati[3],
+      velocity: dati[4],
+      wait: dati[5],
+      channel: dati[6],
+      //repeat: dati[7]
+    })
+  );
+}  
+  
+function initraki(tempi,metri) {
+    traki = [];
+    traki[0] = new MidiWriter.Track();
+    traki[0].setTimeSignature(metri, 4);
+    traki[0].setTempo(tempi);
+
+  let dati=[]
+  for(let a=1;a<=16;a++){
+    let pichi=60
+    if(a%metri==0){pichi=48}
+    dati[0]=4
+    dati[1]=pichi
+    dati[2]=[durations[2]]
+    dati[3]=false
+    dati[4]=120
+    dati[5]=0
+    dati[6]=10;
+    addi(dati, 0)
+  }
+  escribi = new MidiWriter.Writer(traki[0]);
+  var playi =document.getElementById("player15");
+  playi.src= escribi.dataUri();
+  let anchor =document.getElementById("expi")
+  anchor.setAttribute('href', escribi.dataUri());
+  anchor.innerHTML='Metr_'+tempi+'_'+metri+'_4.mid';
+}
+  initraki(60,4)
+    </script>
+  </body>
+</html>
