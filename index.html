@@ -35,29 +35,30 @@
       }
         .m:hover{
            background-color: transparent;
-          
+
         }
     </style>
   </head>
   <body>
-    <div style="color:#666; letter-spacing:4px; padding-bottom:29px;">
-      METRONOME
-    </div>
-    <section id="section15">
-      <midi-player
-        id="player15"
-        src=""
-        sound-font
-        visualizer="#vstaffi"
-        style="display:block;"
-      >
-      </midi-player>
-    </section>
+    <div id="main" style="width:600px;text-align:center;">
+      <div style="color:#666; letter-spacing:4px; padding-bottom:29px;">
+        METRONOME
+      </div>
+      <section id="section15" style="margin: auto;
+  width: 50%;">
+        <midi-player
+          id="player15"
+          src=""
+          sound-font
+          visualizer="#vstaffi"
+          style="display:block;"
+        >
+        </midi-player>
+      </section>
 
-    <script src="https://cdn.jsdelivr.net/combine/npm/tone@14.7.58,npm/@magenta/music@1.23.1/es6/core.js,npm/focus-visible@5,npm/html-midi-player@1.5.0"></script>
-    <br />
+      <script src="https://cdn.jsdelivr.net/combine/npm/tone@14.7.58,npm/@magenta/music@1.23.1/es6/core.js,npm/focus-visible@5,npm/html-midi-player@1.5.0"></script>
+      <br />
 
-    <div style="width:600px;">
       <a id="expi" class="" href="" style="color:#000;margin-left:10px;">
         Download
       </a>
@@ -68,13 +69,18 @@
         >2</span
       >
       <span class="m" id="3_4" style="color:#999;font-size:33px;">3</span>
-      <span class="m" id="4_4" style="color:#555;background-color:#fff;font-size:33px;">4</span>
+      <span
+        class="m"
+        id="4_4"
+        style="color:#555;background-color:#fff;font-size:33px;"
+        >4</span
+      >
       <span class="bpm-container" style="margin-left:25px;">
         <label for="bpm-input">BPM:</label>
         <input
           type="number"
           id="inputTempo"
-          min="30"
+          min="1"
           max="480"
           value="60"
           step="1"
@@ -87,111 +93,152 @@
             type="number"
             id="inputNbari"
             min="1"
-            max="100"
+            max="1000"
             value="16"
+            step="1"
+          />
+        </span>
+        <span class="instri-container" style="margin-left:25px;">
+          <label  title="p: = percussion Number: = midi instrument" for="instri">Instruments:notes</label>
+          <input
+            type="text"
+            size="5"
+            id="instri"
+            min="1"
+            max="1000"
+            value="p:60 p:44"
             step="1"
           />
         </span>
       </div>
     </div>
     <script>
-        let traki=[];
-        let compi=[4,4];
-        let tempi=60
-        let escribi;
-        let nbari=16;
-        const durations = [1, 2, 4, 8, 16, 32, 64];
+              let traki=[];
+              let compi=[4,4];
+              let tempi=60
+              let escribi;
+              let nbari=16;
+              const durations = [1, 2, 4, 8, 16, 32, 64];
 
-function handleChange(event, isTempo) {
-    const value = parseInt(event.target.value);
-    if (isTempo) {
-        tempi = value;
-    } else {
-        nbari = value;
-    }
-    initraki(tempi, compi[0]);
+      function handleChange(event, isTempo) {
+          const value = parseInt(event.target.value);
+          if (isTempo) {
+              tempi = value;
+          } else {
+              nbari = value;
+          }
+        let dati=document.getElementById("instri").value
+         let fi=formidati(dati)
+          initraki(tempi, compi[0],fi);
+      }
+
+      document.getElementById("inputTempo").addEventListener("change", function(event) {
+          handleChange(event, true);
+      });
+
+      document.getElementById("inputNbari").addEventListener("change", function(event) {
+          handleChange(event, false);
+      });
+
+
+       function handleClick(event, compiValue) {
+           var messages = document.querySelectorAll(".m");
+          for (var i = 0; i < messages.length; i++) {
+              messages[i].style.color = "#888";
+              messages[i].style.backgroundColor = "#8883";
+          }
+          event.target.style.color = "#000";
+         event.target.style.backgroundColor = "#fff";
+          compi[0] = compiValue;
+         let dati=document.getElementById("instri").value
+         let fi=formidati(dati)
+          initraki(tempi, compiValue,fi);
+      }
+
+      document.getElementById("2_4").addEventListener("click", function(event) {
+          handleClick(event, 2);
+      });
+
+      document.getElementById("3_4").addEventListener("click", function(event) {
+          handleClick(event, 3);
+      });
+
+      document.getElementById("4_4").addEventListener("click", function(event) {
+          handleClick(event, 4);
+      });
+
+function formidati(input) {
+    const parts = input.split(' ');
+    const result = parts.map(part => {
+        const [key, value] = part.split(':');
+        const parsedValue = parseInt(value, 10);
+        const parsedKey = isNaN(key) ? key : parseInt(key, 10);
+        return [parsedKey, parsedValue];
+    });
+
+    return result;
 }
 
-document.getElementById("inputTempo").addEventListener("change", function(event) {
-    handleChange(event, true);
-});
-
-document.getElementById("inputNbari").addEventListener("change", function(event) {
-    handleChange(event, false);
-});
-
-
- function handleClick(event, compiValue) {
-     var messages = document.querySelectorAll(".m");
-    for (var i = 0; i < messages.length; i++) {
-        messages[i].style.color = "#888";
-        messages[i].style.backgroundColor = "#8883";
-    }
-    event.target.style.color = "#000";
-   event.target.style.backgroundColor = "#fff";
-    compi[0] = compiValue;
-    initraki(tempi, compiValue);
-}
-
-document.getElementById("2_4").addEventListener("click", function(event) {
-    handleClick(event, 2);
-});
-
-document.getElementById("3_4").addEventListener("click", function(event) {
-    handleClick(event, 3);
-});
-
-document.getElementById("4_4").addEventListener("click", function(event) {
-    handleClick(event, 4);
-});     
       
-function addi(dati, ntraki) {
-         traki[ntraki].addEvent(
-          new MidiWriter.ProgramChangeEvent({ instrument: dati[0], channel: ntraki })
-        );
-        traki[ntraki].addEvent(
-          new MidiWriter.NoteEvent({
-            pitch: dati[1],
-            duration: dati[2],
-            sequential: dati[3],
-            velocity: dati[4],
-            wait: dati[5],
-            channel: dati[6],
-            //repeat: dati[7]
-          })
-        );
-      }
+      function addi(dati, ntraki) {
+              let chani=1
+               if(dati[6]=='p'){chani=10}
+               traki[ntraki].addEvent(
+                new MidiWriter.ProgramChangeEvent({ instrument: dati[0], channel: ntraki })
+              );
+              traki[ntraki].addEvent(
+                new MidiWriter.NoteEvent({
+                  pitch: dati[1],
+                  duration: dati[2],
+                  sequential: dati[3],
+                  velocity: dati[4],
+                  wait: dati[5],
+                  channel: chani,
+                  //repeat: dati[7]
+                })
+              );
+            }
 
-      function initraki(tempi,metri) {
-          traki = [];
-          traki[0] = new MidiWriter.Track();
-          traki[0].setTimeSignature(metri, 4);
-          traki[0].setTempo(tempi);
-        let dati=[]
-        for(let a=1;a<=(nbari*metri);a++){
-          let pichi=60
-          if(a%metri==0){pichi=48}
-          dati[0]=4
-          dati[1]=pichi
-          dati[2]=[durations[2]]
-          dati[3]=false
-          dati[4]=120
-          dati[5]=0
-          dati[6]=10;
-          addi(dati, 0)
-        }
-        escribi = new MidiWriter.Writer(traki[0]);
-        
-        var playi =document.getElementById("player15");
-        playi.src= escribi.dataUri();
-        let titi='Metr_'+tempi+'_'+metri+'_4.mid'
-        let anchor =document.getElementById("expi")
-        anchor.setAttribute('href', escribi.dataUri());
-         anchor.setAttribute('download',titi)
-        anchor.innerHTML=titi;
-        
-      }
-        initraki(60,4)
+            function initraki(tempi,metri,instri=[[1,60],["p",44]] ) {
+                traki = [];
+                traki[0] = new MidiWriter.Track();
+                traki[0].setTimeSignature(metri, 4);
+                traki[0].setTempo(tempi);
+              let dati=[]
+              for(let a=1;a<=(nbari*metri);a++){
+                let pichi=instri[0][1]
+                let perci=instri[0][0]
+                if(a%metri==0){
+                  perci=instri[1][0];
+                  pichi=instri[1][1];
+                }
+                let niti
+                if(perci!='p'){
+                  niti=4
+                }else{
+                  niti=perci
+                }
+                dati[0]=niti
+                dati[1]=pichi
+                dati[2]=[durations[2]]
+                dati[3]=false
+                dati[4]=120
+                dati[5]=0
+                dati[6]=perci;
+                addi(dati, 0)
+              }
+              escribi = new MidiWriter.Writer(traki[0]);
+
+              var playi =document.getElementById("player15");
+              playi.src= escribi.dataUri();
+              let titi='Metr_'+tempi+'_'+metri+'_4.mid'
+              let anchor =document.getElementById("expi")
+              anchor.setAttribute('href', escribi.dataUri());
+               anchor.setAttribute('download',titi)
+              anchor.innerHTML=titi;
+
+            }
+              initraki(60,4)
     </script>
   </body>
 </html>
