@@ -1,5 +1,4 @@
 # Metrohmp
-Metronome using Html-midi-player
-and Midiwriter.js
+Metronome using Html-midi-player, Synth.js and Midiwriter.js
 
 https://josepssv.github.io/metrohmp/
