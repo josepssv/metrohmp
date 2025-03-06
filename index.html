@@ -31,9 +31,11 @@
         position: relative;
         top: 7px;
         background-color: #8883;
+        cursor:pointer;
       }
         .m:hover{
            background-color: transparent;
+          
         }
     </style>
   </head>
@@ -66,7 +68,7 @@
         >2</span
       >
       <span class="m" id="3_4" style="color:#999;font-size:33px;">3</span>
-      <span class="m" id="4_4" style="color:#555;font-size:33px;">4</span>
+      <span class="m" id="4_4" style="color:#555;background-color:#fff;font-size:33px;">4</span>
       <span class="bpm-container" style="margin-left:25px;">
         <label for="bpm-input">BPM:</label>
         <input
@@ -123,8 +125,10 @@ document.getElementById("inputNbari").addEventListener("change", function(event)
      var messages = document.querySelectorAll(".m");
     for (var i = 0; i < messages.length; i++) {
         messages[i].style.color = "#888";
+        messages[i].style.backgroundColor = "#8883";
     }
     event.target.style.color = "#000";
+   event.target.style.backgroundColor = "#fff";
     compi[0] = compiValue;
     initraki(tempi, compiValue);
 }
@@ -177,11 +181,15 @@ function addi(dati, ntraki) {
           addi(dati, 0)
         }
         escribi = new MidiWriter.Writer(traki[0]);
+        
         var playi =document.getElementById("player15");
         playi.src= escribi.dataUri();
+        let titi='Metr_'+tempi+'_'+metri+'_4.mid'
         let anchor =document.getElementById("expi")
         anchor.setAttribute('href', escribi.dataUri());
-        anchor.innerHTML='Metr_'+tempi+'_'+metri+'_4.mid';
+         anchor.setAttribute('download',titi)
+        anchor.innerHTML=titi;
+        
       }
         initraki(60,4)
     </script>
