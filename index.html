@@ -1,298 +1,111 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+
+<head>
     <title>Metronome</title>
+   <link rel="stylesheet" type="text/css" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.11.1/p5.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/midi-writer-js@3.1.1/browser/midiwriter.min.js"></script>
-     <script src="https://unpkg.com/synth-js@0.1.2/dst/synth.min.js"></script>
+    <script src="https://unpkg.com/synth-js@0.1.2/dst/synth.min.js"></script>
     <meta charset="utf-8" />
-    <style>
-      html,
-      body {
-        margin: 0;
-        padding: 0;
-        background-color: #aaa;
-        margin: 10px 20px 20px 10px;
-        font-family:arial;
+ 
+</head>
 
-      }
+<body>
+  <div style="color:#666; letter-spacing:4px; position:absolute;top:2px;left:2px;">
+            METRONOMITI HMP
+</div>
+    <div id="main" style="margin: auto, 50%; width:600px;text-align:center;">
+        
+      <table><tr><td style="text-align:right;">
+       
+        <label for="iritmi">Rhythm(0-<span id="input2-max">30</span>)</label><select id="iritmi" class="m3" style=""></select>
+        
+      </td><td>    
+        <section id="section15" style="">
+            <midi-player id="player15" src="" sound-font visualizer="#vstaffi" style="display:block;">
+            </midi-player>
+        </section>
+        <script src="https://cdn.jsdelivr.net/combine/npm/tone@14.7.58,npm/@magenta/music@1.23.1/es6/core.js,npm/focus-visible@5,npm/html-midi-player@1.5.0"></script>
+        <div style=""> <a id="expi" class="" href="" style="color:#000;margin-left:10px;"></a></div>
+        </td><td><div id="cucopi"></div></td></tr></table>
+        <table style="padding-top:3px;"><tr><td>
+          <div style="text-align:left;">  Meter:
+            <span class="m" id="2_4" style="color:#888;"></span>
+            <span class="m" id="3_4" style="color:#888;"></span>
+            <span class="m" id="4_4" style="color:#555;background-color:#fff;"></span>
+              
+            </div>
+          
+            <span class="bpm-container" style="">
+                <label for="bpm-input">BPM:</label>
+                <input type="number" id="inputTempo" min="1" max="480" value="220" step="1" />
+            </span>
+          </td>
+      <!--  
+            ///////////////////////
+      -->
+          
+          <td valign="top" colspan="2">
+            
+           <span class="instri-container" style="margin-left:25px;">
+                <label title="p: = percussion     Number: = midi instrument Dynamic 1 to 10" for="instri">Instrument:note:dynamic</label><br>
 
-      /* bravura-text-latin-400-normal */
-      @font-face {
-        font-family: 'Bravura Text';
-        font-style: normal;
-        font-display: swap;
-        font-weight: 400;
-        src: url(https://cdn.jsdelivr.net/fontsource/fonts/bravura-text@latest/latin-400-normal.woff2) format('woff2'), url(https://cdn.jsdelivr.net/fontsource/fonts/bravura-text@latest/latin-400-normal.woff) format('woff');
-      }
+             <input type="text"  id="instri" value="p:44:6 p:44:9" step="1" style="display:none;text-align:center;padding:5px;font-size:16px;" />
+            </span>
+  <div style="height: 90px;"> 
+<div id="text-fields-container"></div>
+                               <div>
+          </td></tr>
+<tr><td>      
 
-      .m {
-        font-family: "Bravura", sans-serif;
-        font-size: 18px;
-        line-height: 1.2;
-        position: relative;
-        top: 7px;
-        background-color: #8883;
-        cursor:pointer;
-      }
-        .m:hover{
-           background-color: transparent;
-
-        }
-    </style>
-  </head>
-  <body>
-    <div id="main" style="width:600px;text-align:center;">
-      <div style="color:#666; letter-spacing:4px; padding-bottom:29px;">
-        METRONOME
-      </div>
-      <section
-        id="section15"
-        style="margin: auto;
-  width: 50%;">
-        <midi-player
-          id="player15"
-          src=""
-          sound-font
-          visualizer="#vstaffi"
-          style="display:block;">
-        </midi-player>
-      </section>
-
-      <script src="https://cdn.jsdelivr.net/combine/npm/tone@14.7.58,npm/@magenta/music@1.23.1/es6/core.js,npm/focus-visible@5,npm/html-midi-player@1.5.0"></script>
-     
-      <a id="expi" class="" href="" style="color:#000;margin-left:10px;">
-        Download
-      </a> 
-      <br />
-      <div style="padding-top:23px;">
-      <span
-        class="m"
-        id="2_4"
-        style="margin-left:30px;color:#999;font-size:33px;">2</span>
-      <span class="m" id="3_4" style="color:#999;font-size:33px;">3</span>
-      <span
-        class="m"
-        id="4_4"
-        style="color:#555;background-color:#fff;font-size:33px;">4</span>
-      <span
-        class="m"
-        id="8_4"
-        style="color:#999;font-size:33px;"
-        >8</span>
-      <span class="bpm-container" style="margin-left:25px;">
-        <label for="bpm-input">BPM:</label>
-        <input
-          type="number"
-          id="inputTempo"
-          min="1"
-          max="480"
-          value="60"
-          step="1"
-        />
-      </span>
-      </div>
-        <div style="margin-top:23px;">
-        <span class="nbari-container" style="margin-left:25px;">
-          <label for="nbari-input">Number of bars:</label>
-          <input
-            type="number"
-            id="inputNbari"
-            min="1"
-            max="1000"
-            value="16"
-            step="1"
-          />
-        </span>
-        <span class="instri-container" style="margin-left:25px;">
-          <label title="p: = percussion     Number: = midi instrument" for="instri"
-            >Instruments:notes</label
-          >
-          <input
-            type="text"
-            size="6"
-            id="instri"
-            min="1"
-            max="1000"
-            value="p:44 p:48"
-            step="1"
-           style="text-align:center;padding:5px;font-size:24px;"/> </span
-        ><span onclick="di()" style="color:#fff;">▶︎</span>
-      </div>
-      <div style="margin-top:33px;">
-      <audio id="plawi" controls style="width:295px;height:55px;"></audio><br>
-      <a id="wav"></a>
-      </div>
+          <span class="nbari-container" style="margin-left:25px;">
+                <label for="nbari-input">Number of bars:</label>
+                <input type="number" id="inputNbari" min="1" max="1000" value="4" step="1" />
+            </span><br>
+          <label for="innoti">Num. of notes in bar(1-<span id="input1-max">8</span>):</label><input type="number" id="innoti" size="1" value="4" style="width:40px;"/> 
+  </td></tr></table>
+        <!--
+      ////////////////////////////////////////
+      -->
+        <div style="width:550px;padding:13px;color:#fff;  background-color:#666;">
+            Tracks:
+            <span class="m1" id="v0" style="background-color:#fff;color:#999;">0</span>
+            <span class="m1" id="v1" style="color:#999;">1</span>
+            <span class="m1" id="v2" style="color:#999;">2</span>
+            <span class="m1" id="v3" style="color:#999;">3</span>
+            <span class="m1" id="v4" style="color:#999;">4</span>
+            <button style="margin-left:33px;font-size:15px; color: #999" onclick="fvoidi(1)">
+                ᴇᴍᴘᴛʏ ➷➷
+            </button>
+            <br />&nbsp;<br />
+            <!--//////-->
+            <button style="font-size:15px;" onclick="fnewi()">★彡 ɴᴇᴡ 彡★</button>
+            <button style="font-size:15px;" id="starti" onclick="fstarti()">ᴀᴛ sᴛᴀʀᴛ ★«╝</button>
+            <button style="font-size:15px;" id="into">
+                *•.¸♡ ɪɴᴛᴏ ᴘᴏsɪᴛɪᴏɴ ♡¸.•*
+            </button>
+            <button style="font-size:15px;" id="fendi">╚»★ᴀᴛ ᴛʜᴇ ᴇɴᴅ</button>
+        </div>
+        <!--
+      ////////////////////////////////////////
+      -->
+        <div style="margin-top:33px;width:600px;text-align:center;">
+            <span id="totalibari" style="display:none;"></span>
+            <span>
+                Position:
+                <input id="slidi" type="range" min="0" max="16" step="1" value="0" />
+                <input id="iposi" type="text" size="2" />
+            </span>
+        </div>
+        <div style="margin-top:33px;">
+            <audio id="plawi" controls style="width:295px;height:55px;"></audio><br />
+            <a id="wav"></a>
+        </div>
     </div>
-    <script>
-                      let traki=[];
-                      let compi=[4,4];
-                      let tempi=60
-                      let escribi;
-                      let nbari=16;
-                      let instri=[['p',44],["p",48]]
-                      const durations = [1, 2, 4, 8, 16, 32, 64];
+    <script src="sketch.js"></script>
+  
+ 
+</body>
 
-
-
-              function handleChange(event, isTempo) {
-                  const value = parseInt(event.target.value);
-                  if (isTempo) {
-                      tempi = value;
-                  } else {
-                      nbari = value;
-                  }
-                let dati=document.getElementById("instri").value
-                 instri=formidati(dati)
-                  initraki(tempi, compi[0],instri);
-              }
-
-              document.getElementById("inputTempo").addEventListener("change", function(event) {
-                  handleChange(event, true);
-              });
-
-              document.getElementById("inputNbari").addEventListener("change", function(event) {
-                  handleChange(event, false);
-              });
-
-
-               function handleClick(event, compiValue) {
-                   var messages = document.querySelectorAll(".m");
-                  for (var i = 0; i < messages.length; i++) {
-                      messages[i].style.color = "#888";
-                      messages[i].style.backgroundColor = "#8883";
-                  }
-                  event.target.style.color = "#000";
-                 event.target.style.backgroundColor = "#fff";
-                  compi[0] = compiValue;
-                 let dati=document.getElementById("instri").value
-                 instri=formidati(dati)
-                  initraki(tempi, compiValue,instri);
-              }
-
-              document.getElementById("2_4").addEventListener("click", function(event) {
-                  handleClick(event, 2);
-              });
-
-              document.getElementById("3_4").addEventListener("click", function(event) {
-                  handleClick(event, 3);
-              });
-
-              document.getElementById("4_4").addEventListener("click", function(event) {
-                  handleClick(event, 4);
-              });
-     document.getElementById("8_4").addEventListener("click", function(event) {
-                  handleClick(event, 8);
-              }); 
-      
-        function di(){
-               let dati=document.getElementById("instri").value
-                 instri=formidati(dati)
-                  initraki(tempi, compi[0],instri);
-        }
-
-      
- async function dataUriToArrayBuffer(dataUri) {
-  let base64String = dataUri.split(",")[1]; // Extrae Base64
-  let byteCharacters = atob(base64String);
-  let byteArray = new Uint8Array(byteCharacters.length);
-
-  for (let i = 0; i < byteCharacters.length; i++) {
-    byteArray[i] = byteCharacters.charCodeAt(i);
-  }
-
-  return byteArray.buffer; // Devuelve el ArrayBuffer
-}
-     
-      
-      
-        function formidati(input) {
-            const parts = input.split(' ');
-            const result = parts.map(part => {
-                const [key, value] = part.split(':');
-                const parsedValue = parseInt(value, 10);
-                const parsedKey = isNaN(key) ? key : parseInt(key, 10);
-                return [parsedKey, parsedValue];
-            });
-
-            return result;
-        }
-
-
-              function addi(dati, ntraki) {
-                      let chani=1
-                       if(dati[6]=='p'){chani=10}
-                       traki[ntraki].addEvent(
-                        new MidiWriter.ProgramChangeEvent({ instrument: dati[0], channel: ntraki })
-                      );
-                      traki[ntraki].addEvent(
-                        new MidiWriter.NoteEvent({
-                          pitch: dati[1],
-                          duration: dati[2],
-                          sequential: dati[3],
-                          velocity: dati[4],
-                          wait: dati[5],
-                          channel: chani,
-                          //repeat: dati[7]
-                        })
-                      );
-                    }
-
-                    function initraki(tempi,metri,instrai=[['p',44],["p",48]]) {
-
-                        traki = [];
-                        traki[0] = new MidiWriter.Track();
-                        traki[0].setTimeSignature(metri, 4);
-                        traki[0].setTempo(tempi);
-                      let dati=[]
-                      for(let a=1;a<=(nbari*metri);a++){
-                        let pichi=instrai[0][1]
-                        let perci=instrai[0][0]
-                        if(a%metri==0){
-                          perci=instrai[1][0];
-                          pichi=instrai[1][1];
-                        }
-                        let niti
-                        if(perci!='p'){
-                          niti=perci
-                        }else{
-                          niti=1
-                        }
-                        dati[0]=niti
-                        dati[1]=pichi
-                        dati[2]=[durations[2]]
-                        dati[3]=false
-                        dati[4]=120
-                        dati[5]=0
-                        dati[6]=perci;
-                        addi(dati, 0)
-                      }
-                      escribi = new MidiWriter.Writer(traki[0]);
-
-                      var playi =document.getElementById("player15");
-                      playi.src= escribi.dataUri();
-      let tri= instri.map(subi => `${subi[0]}-${subi[1]}`).join('_');
-                      let titi='Metr_'+tempi+'_'+metri+'_4_'+nbari+'_'+tri+''
-                      let anchor =document.getElementById("expi")
-                      anchor.setAttribute('href', escribi.dataUri());
-                       anchor.setAttribute('download',titi+'.mid')
-                      anchor.innerHTML=titi+'.mid';
-
-            let anchowi = document.getElementById("wav");
-            let plawi =document.getElementById("plawi");
-         dataUriToArrayBuffer(escribi.dataUri()).then((wavUrl) => {
-    
-    let wavi = synth.midiToWav(wavUrl).toBlob();
-    let src = URL.createObjectURL(wavi);
-     plawi.src = src;
-    plawi.load();
-    anchowi.setAttribute("href", src);
-    anchowi.setAttribute("download", titi + ".wav");
-    anchowi.innerHTML=titi+ ".wav"
-  });             
-                      
-                    }
-
-                      initraki(60,4)
-    </script>
-  </body>
 </html>
