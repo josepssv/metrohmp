@@ -1,0 +1,101 @@
+   html,
+      body {
+          display: flex;
+    justify-content: center; 
+    align-items: center; 
+   
+    margin: 0; 
+        background-color: #aaa;
+       
+        font-family:arial;
+      
+      }
+
+      @font-face {
+        font-family: 'Bravura';
+        src: url("Bravura.ttf") format("truetype");
+      }
+
+    .m {
+    font-family: "Bravura";
+    background-color: #8883;
+    cursor:pointer;
+    font-size: 30px; 
+    line-height: 1.6; 
+    padding: 12px 5px; 
+    display: inline-block; 
+    vertical-align: middle;
+    height:20px;
+    overflow: hidden;
+    
+      }
+    .m:hover{
+           background-color: transparent;
+    }
+    .m1 {
+    font-family: "Bravura";
+    background-color: #8883;
+    cursor:pointer;
+    font-size: 30px; 
+    line-height: 1.4; 
+    padding: 12px 5px; 
+    display: inline-block; 
+    vertical-align: middle;
+    height:20px;
+    overflow: hidden;
+  
+      }
+        .m1:hover{
+           background-color: transparent;
+
+        }
+
+.m3 {
+  font-family: "Bravura", sans-serif; /* Asegura que Bravura se cargue primero */
+  font-size: 16px;
+ height: 30px;
+line-height: 34px;
+  padding: 2px 5px; /* Un poco de padding sin afectar la altura */
+  text-align: center;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  border: 1px solid #ccc;
+
+  align-items: center; /* Centra verticalmente */
+  justify-content: center; /* Centra horizontalmente */
+  display: inline-block;
+   overflow: hidden;
+}
+select {
+  vertical-align: middle;
+}
+option {
+  
+}
+
+.colai {
+  color: #000;
+}
+.colei {
+  color: #eee;
+}
+/* styles.css */
+#text-fields-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* Siempre 2 columnas */
+    gap: 5px; /* Espacio más pequeño entre los campos */
+    max-width: 350px; /* Limitar el ancho del contenedor */
+   
+   
+}
+
+.text-field { 
+    padding: 5px; /* Padding más pequeño */
+    font-size: 18px; /* Tamaño de fuente más pequeño */
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    width: 100%; /* Ocupar todo el ancho de la celda */
+    box-sizing: border-box; /* Incluir padding y border en el ancho */
+   height:30px;
+}
