@@ -440,7 +440,7 @@ function createTextFields(array) {
     const container = select('#text-fields-container');
     container.html('')
       const length = array.length;
-    const numFields = constrain(length, 2, 8);
+    const numFields = constrain(length, 1, 8);
     for (let i = 0; i < numFields; i++) {
         const input = createInput('');
         input.addClass('text-field');
@@ -456,7 +456,7 @@ function constri(n){
   let cadi=''
   //let matri=[]
   instri=[]
-  if(n<=1){n=2}
+  if(n<=1){n=1}
   for(let a=0;a<n;a++){
     let tadi='p:44:5'
     cadi+=tadi+' '
